@@ -85,7 +85,6 @@ export function useGoogleDrive() {
       await new Promise((resolve) => window.gapi.load("client:auth2", resolve))
 
       await window.gapi.client.init({
-        apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "demo_key",
         clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "demo_client",
         scope: "https://www.googleapis.com/auth/drive.file",
         discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
