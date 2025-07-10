@@ -9,7 +9,7 @@ import { Printer, Download } from "lucide-react"
 import type { DebtRecord } from "@/types/debt"
 
 interface ReceiptPrinterProps {
-  debt: DebtRecord
+  debt?: DebtRecord | null
   onClose: () => void
 }
 
@@ -18,6 +18,9 @@ export default function ReceiptPrinter({ debt, onClose }: ReceiptPrinterProps) {
   const [shopAddress, setShopAddress] = useState("Toshkent shahar")
   const [shopPhone, setShopPhone] = useState("+998 90 123 45 67")
   const [notes, setNotes] = useState("")
+
+  // If no debt was passed, render nothing (or a tiny placeholder)
+  if (!debt) return null
 
   const printReceipt = () => {
     const receiptContent = `

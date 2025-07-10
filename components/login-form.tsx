@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Lock, AlertCircle, User, Key } from "lucide-react"
+import { Lock, AlertCircle, User } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 
 export default function LoginForm() {
@@ -78,7 +78,7 @@ export default function LoginForm() {
                   <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     type="text"
-                    placeholder="giyosbek.dev"
+                    placeholder="Foydalanuvchi nomini kiriting"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="pl-10"
@@ -93,7 +93,7 @@ export default function LoginForm() {
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
                   type="password"
-                  placeholder="Parolni kiriting..."
+                  placeholder="Parolni kiriting"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10"
@@ -120,18 +120,6 @@ export default function LoginForm() {
                 {error}
               </div>
             )}
-
-            <div className="text-center text-xs text-gray-500 mt-4 space-y-1">
-              <div className="flex items-center justify-center gap-1">
-                <Key className="w-3 h-3" />
-                <span>Login: giyosbek.dev</span>
-              </div>
-              <div className="flex items-center justify-center gap-1">
-                <Lock className="w-3 h-3" />
-                <span>Parol: 00005555</span>
-              </div>
-              <p className="text-green-600 font-medium">Xavfsiz kirish tizimi</p>
-            </div>
           </form>
         </CardContent>
       </Card>

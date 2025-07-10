@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useMemo } from "react"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Search, Phone, Edit, Check, X, Trash2, User, Calendar, DollarSign } from "lucide-react"
@@ -8,43 +8,36 @@ import { Button } from "@/components/ui/button"
 import type { DebtRecord } from "@/types/debt"
 
 interface SearchSectionProps {
-  debts: DebtRecord[]
+  debts?: DebtRecord[]
   onEdit: (debt: DebtRecord) => void
   onDelete: (id: string) => void
   onTogglePaid: (id: string) => void
 }
 
-export default function SearchSection({ debts, onEdit, onDelete, onTogglePaid }: SearchSectionProps) {
+export default function SearchSection({ debts = [], onEdit, onDelete, onTogglePaid }: SearchSectionProps) {
   const [searchTerm, setSearchTerm] = useState("")
-  const [searchResults, setSearchResults] = useState<DebtRecord[]>([])
-  const [showResults, setShowResults] = useState(false)
 
-  // Avtomatik qidiruv - faqat boshidan boshlanadigan natijalar
-  useEffect(() => {
-    if (searchTerm.trim().length === 0) {
-      setSearchResults([])
-      setShowResults(false)
-      return
-    }
+  /* -------------------------------------------------------------------------- */
+  /*                         Derived data (no extra state)                      */
+  /* -------------------------------------------------------------------------- */
+  const filteredDebts = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase()
 
-    if (searchTerm.trim().length >= 1) {
-      const searchLower = searchTerm.toLowerCase().trim()
-      const results = debts.filter((debt) => {
-        // Ism boshidan boshlanishi kerak
-        const nameMatch = debt.ism.toLowerCase().startsWith(searchLower)
+    if (!term) return []
 
-        // Telefon raqami boshidan boshlanishi kerak (faqat raqamlar)
-        const phoneDigits = searchTerm.replace(/\D/g, "")
-        const debtPhoneDigits = debt.tel.replace(/\D/g, "")
-        const phoneMatch = phoneDigits.length > 0 && debtPhoneDigits.startsWith(phoneDigits)
+    return debts.filter((debt) => {
+      const nameMatch = debt.ism.toLowerCase().startsWith(term)
 
-        return nameMatch || phoneMatch
-      })
+      const phoneDigits = term.replace(/\D/g, "")
+      const debtPhoneDigits = debt.tel.replace(/\D/g, "")
+      const phoneMatch = phoneDigits && debtPhoneDigits.startsWith(phoneDigits)
 
-      setSearchResults(results)
-      setShowResults(true)
-    }
+      return nameMatch || phoneMatch
+    })
   }, [searchTerm, debts])
+
+  const showResults = searchTerm.trim().length > 0
+  /* -------------------------------------------------------------------------- */
 
   const copyPhone = async (phone: string) => {
     try {
@@ -67,19 +60,15 @@ export default function SearchSection({ debts, onEdit, onDelete, onTogglePaid }:
   }
 
   // Qidiruv natijasida matnni ajratib ko'rsatish (faqat boshidan)
-  const highlightText = (text: string, searchTerm: string) => {
-    if (!searchTerm || !text.toLowerCase().startsWith(searchTerm.toLowerCase())) {
-      return text
-    }
+  const highlightText = (text: string) => {
+    const term = searchTerm.trim()
+    if (!term || !text.toLowerCase().startsWith(term.toLowerCase())) return text
 
-    const matchLength = searchTerm.length
-    const matchedPart = text.slice(0, matchLength)
-    const remainingPart = text.slice(matchLength)
-
+    const matchLength = term.length
     return (
       <>
-        <span className="bg-yellow-200 font-bold">{matchedPart}</span>
-        {remainingPart}
+        <span className="bg-yellow-200 font-bold">{text.slice(0, matchLength)}</span>
+        {text.slice(matchLength)}
       </>
     )
   }
@@ -91,7 +80,9 @@ export default function SearchSection({ debts, onEdit, onDelete, onTogglePaid }:
           <Search className="w-5 h-5" />🔍 Mijoz qidiruv
         </CardTitle>
       </CardHeader>
+
       <CardContent className="p-6 space-y-4">
+        {/* Search input */}
         <div className="relative">
           <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
           <Input
@@ -110,19 +101,21 @@ export default function SearchSection({ debts, onEdit, onDelete, onTogglePaid }:
           )}
         </div>
 
+        {/* Result header */}
         {showResults && (
           <div className="bg-white p-4 rounded-lg border-l-4 border-green-500 shadow-sm">
             <div className="text-green-700 font-medium mb-2">
-              {searchResults.length > 0
-                ? `${searchResults.length} ta natija topildi:`
+              {filteredDebts.length > 0
+                ? `${filteredDebts.length} ta natija topildi:`
                 : `"${searchTerm}" bilan boshlanadigan mijoz topilmadi`}
             </div>
           </div>
         )}
 
-        {showResults && searchResults.length > 0 && (
+        {/* Result list */}
+        {showResults && filteredDebts.length > 0 && (
           <div className="space-y-4 max-h-96 overflow-y-auto">
-            {searchResults.map((debt) => (
+            {filteredDebts.map((debt) => (
               <div
                 key={debt.id}
                 className="bg-white rounded-xl p-5 shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
@@ -131,7 +124,7 @@ export default function SearchSection({ debts, onEdit, onDelete, onTogglePaid }:
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <User className="w-5 h-5 text-blue-500" />
-                      <h3 className="text-lg font-bold text-gray-800">{highlightText(debt.ism, searchTerm)}</h3>
+                      <h3 className="text-lg font-bold text-gray-800">{highlightText(debt.ism)}</h3>
                       {debt.tolandi && (
                         <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
                           ✅ To'langan
@@ -172,6 +165,7 @@ export default function SearchSection({ debts, onEdit, onDelete, onTogglePaid }:
                   >
                     <Phone className="w-3 h-3 mr-1" />📋 Nusxalash
                   </Button>
+
                   <Button
                     size="sm"
                     variant="outline"
@@ -181,6 +175,7 @@ export default function SearchSection({ debts, onEdit, onDelete, onTogglePaid }:
                     <Edit className="w-3 h-3 mr-1" />
                     ✏️ Tahrirlash
                   </Button>
+
                   <Button
                     size="sm"
                     variant="outline"
@@ -201,6 +196,7 @@ export default function SearchSection({ debts, onEdit, onDelete, onTogglePaid }:
                       </>
                     )}
                   </Button>
+
                   <Button
                     size="sm"
                     variant="destructive"
@@ -216,6 +212,7 @@ export default function SearchSection({ debts, onEdit, onDelete, onTogglePaid }:
           </div>
         )}
 
+        {/* Prompt when no results */}
         {!showResults && debts.length > 0 && (
           <div className="text-center text-gray-500 py-4">
             <Search className="w-8 h-8 mx-auto mb-2 text-gray-300" />

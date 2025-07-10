@@ -24,7 +24,8 @@ interface DebtListProps {
   onEdit: (debt: DebtRecord) => void
   onDelete: (id: string) => void
   onTogglePaid: (id: string) => void
-  onPrintReceipt: (debt: DebtRecord) => void
+  /** optional – if not provided the “Chek” button is hidden */
+  onPrintReceipt?: (debt: DebtRecord) => void
 }
 
 export default function DebtList({ debts, onEdit, onDelete, onTogglePaid, onPrintReceipt }: DebtListProps) {
@@ -86,7 +87,7 @@ export default function DebtList({ debts, onEdit, onDelete, onTogglePaid, onPrin
               {displayedDebts.map((debt, index) => (
                 <div
                   key={debt.id}
-                  className="bg-gradient-to-r from-white to-gray-50 rounded-xl p-5 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-200"
+                  className="bg-gradient-to-r from-white to-gray-50 rounded-xl p-4 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-200"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
@@ -110,7 +111,7 @@ export default function DebtList({ debts, onEdit, onDelete, onTogglePaid, onPrin
                           </div>
                         )}
                         <User className="w-5 h-5 text-blue-500" />
-                        <h3 className="text-xl font-bold text-gray-800">{debt.ism}</h3>
+                        <h3 className="text-lg font-bold text-gray-800">{debt.ism}</h3>
                         {debt.tolandi && (
                           <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">
                             ✅ To'langan
@@ -118,7 +119,7 @@ export default function DebtList({ debts, onEdit, onDelete, onTogglePaid, onPrin
                         )}
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                         <div className="flex items-center gap-2">
                           <DollarSign className="w-4 h-4 text-green-500" />
                           <span className="font-medium text-gray-600">Qarz:</span>
@@ -149,27 +150,29 @@ export default function DebtList({ debts, onEdit, onDelete, onTogglePaid, onPrin
                       size="sm"
                       variant="outline"
                       onClick={() => onEdit(debt)}
-                      className="bg-yellow-50 hover:bg-yellow-100 border-yellow-200"
+                      className="bg-yellow-50 hover:bg-yellow-100 border-yellow-200 text-xs"
                     >
                       <Edit className="w-3 h-3 mr-1" />
-                      ✏️ Tahrirlash
+                      Tahrirlash
                     </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => onPrintReceipt(debt)}
-                      className="bg-blue-50 hover:bg-blue-100 border-blue-200"
-                    >
-                      <Receipt className="w-3 h-3 mr-1" />🧾 Chek
-                    </Button>
+                    {onPrintReceipt && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => onPrintReceipt(debt)}
+                        className="bg-blue-50 hover:bg-blue-100 border-blue-200 text-xs"
+                      >
+                        <Receipt className="w-3 h-3 mr-1" />🧾 Chek
+                      </Button>
+                    )}
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => onTogglePaid(debt.id)}
                       className={
                         debt.tolandi
-                          ? "bg-red-50 hover:bg-red-100 border-red-200"
-                          : "bg-green-50 hover:bg-green-100 border-green-200"
+                          ? "bg-red-50 hover:bg-red-100 border-red-200 text-xs"
+                          : "bg-green-50 hover:bg-green-100 border-green-200 text-xs"
                       }
                     >
                       {debt.tolandi ? (
@@ -186,7 +189,7 @@ export default function DebtList({ debts, onEdit, onDelete, onTogglePaid, onPrin
                       size="sm"
                       variant="destructive"
                       onClick={() => handleDelete(debt.id)}
-                      className="bg-red-50 hover:bg-red-100 border-red-200 text-red-600"
+                      className="bg-red-50 hover:bg-red-100 border-red-200 text-red-600 text-xs"
                     >
                       <Trash2 className="w-3 h-3 mr-1" />❌
                     </Button>

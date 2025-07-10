@@ -10,13 +10,16 @@ import { Plus, Edit, FileDown, Phone, DollarSign, User } from "lucide-react"
 import type { DebtRecord } from "@/types/debt"
 
 interface DebtFormProps {
-  onSubmit: (debt: Omit<DebtRecord, "id">) => void
-  onExportPDF: () => void
+  /** called when the form is successfully submitted (preferred) */
+  onAdd?: (debt: Omit<DebtRecord, "id">) => void
+  /** legacy name – still supported for safety */
+  onSubmit?: (debt: Omit<DebtRecord, "id">) => void
+  onExportPDF?: () => void
   editingDebt?: DebtRecord | null
-  onCancelEdit: () => void
+  onCancelEdit?: () => void
 }
 
-export default function DebtForm({ onSubmit, onExportPDF, editingDebt, onCancelEdit }: DebtFormProps) {
+export default function DebtForm({ onAdd, onSubmit, onExportPDF, editingDebt, onCancelEdit }: DebtFormProps) {
   const [ism, setIsm] = useState("")
   const [tel, setTel] = useState("")
   const [qarz, setQarz] = useState("")
@@ -124,13 +127,17 @@ export default function DebtForm({ onSubmit, onExportPDF, editingDebt, onCancelE
       return
     }
 
-    onSubmit({
+    const newDebt = {
       ism: ism.trim(),
       tel: getFullPhoneNumber(),
       qarz: qarzAmount,
       sana: new Date().toLocaleDateString(),
       tolandi: editingDebt?.tolandi || false,
-    })
+    }
+
+    // prefer onAdd, fall back to onSubmit
+    if (onAdd) onAdd(newDebt)
+    else if (onSubmit) onSubmit(newDebt)
 
     if (!editingDebt) {
       setIsm("")
@@ -155,10 +162,10 @@ export default function DebtForm({ onSubmit, onExportPDF, editingDebt, onCancelE
           )}
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-6">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <CardContent className="p-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+            <label className="text-xs font-medium text-gray-700 flex items-center gap-2">
               <User className="w-4 h-4" />
               Mijoz ismi
             </label>
@@ -168,11 +175,11 @@ export default function DebtForm({ onSubmit, onExportPDF, editingDebt, onCancelE
               onChange={handleNameChange}
               className="border-2 border-blue-200 focus:border-blue-400"
             />
-            <p className="text-xs text-gray-500">Faqat harflar. Avtomatik bosh harf bilan yoziladi</p>
+            <p className="text-xs text-gray-400">Faqat harflar. Avtomatik bosh harf bilan yoziladi</p>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+            <label className="text-xs font-medium text-gray-700 flex items-center gap-2">
               <Phone className="w-4 h-4" />
               Telefon raqami
             </label>
@@ -190,7 +197,7 @@ export default function DebtForm({ onSubmit, onExportPDF, editingDebt, onCancelE
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+            <label className="text-xs font-medium text-gray-700 flex items-center gap-2">
               <DollarSign className="w-4 h-4" />
               Qarz summasi (so'm)
             </label>
@@ -210,7 +217,7 @@ export default function DebtForm({ onSubmit, onExportPDF, editingDebt, onCancelE
             >
               {editingDebt ? "Yangilash" : "Qarzni qo'shish"}
             </Button>
-            {editingDebt && (
+            {editingDebt && onCancelEdit && (
               <Button type="button" variant="outline" onClick={onCancelEdit} className="bg-transparent">
                 Bekor qilish
               </Button>
@@ -218,13 +225,15 @@ export default function DebtForm({ onSubmit, onExportPDF, editingDebt, onCancelE
           </div>
         </form>
         <div className="mt-4 space-y-2">
-          <Button
-            onClick={onExportPDF}
-            variant="outline"
-            className="w-full bg-transparent border-2 border-orange-200 hover:bg-orange-50"
-          >
-            <FileDown className="w-4 h-4 mr-2" />📤 Ro'yxatni PDF qilish
-          </Button>
+          {onExportPDF && (
+            <Button
+              onClick={onExportPDF}
+              variant="outline"
+              className="w-full bg-transparent border-2 border-orange-200 hover:bg-orange-50"
+            >
+              <FileDown className="w-4 h-4 mr-2" />📤 Ro'yxatni PDF qilish
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>
