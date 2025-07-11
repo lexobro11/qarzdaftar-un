@@ -154,10 +154,10 @@ export default function StatisticsPage() {
                   Saqlash
                 </>
               ) : (
-                <>
-                  <Cloud className="w-4 h-4 mr-2" />
-                  Google Drive
-                </>
+                // <>
+                //   <Cloud className="w-4 h-4 mr-2" />
+                //   Google Drive
+                // </>
               )}
             </Button>
 
