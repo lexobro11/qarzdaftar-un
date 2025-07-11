@@ -66,7 +66,7 @@ export default function LoginForm() {
             {showUsernameField ? "🔒 Tizimga kirish" : "🔐 Parolni kiriting"}
           </CardTitle>
           <p className="text-gray-600 text-sm mt-2">
-            {showUsernameField ? "Do'kon qarz daftari" : `Salom, ${username}!`}
+            {showUsernameField ? "Dorixona qarz daftari" : `Salom, ${username}!`}
           </p>
         </CardHeader>
         <CardContent className="pt-2">
