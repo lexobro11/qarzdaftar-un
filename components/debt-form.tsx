@@ -202,7 +202,7 @@ export default function DebtForm({ onAdd, onSubmit, onExportPDF, editingDebt, on
               Qarz summasi (so'm)
             </label>
             <Input
-              placeholder="100000"
+              placeholder="1 0 0 000"
               value={qarz}
               onChange={handleAmountChange}
               className="border-2 border-purple-200 focus:border-purple-400"
