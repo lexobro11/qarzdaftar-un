@@ -359,14 +359,14 @@ export default function HomePage() {
               {googleEnabled && (
                 <>
                   {!driveAuthenticated ? (
-                    <Button onClick={driveSignIn} disabled={driveLoading} variant="outline" size="sm">
-                      {driveLoading ? (
-                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                      ) : (
-                        <Cloud className="w-3 h-3 mr-1" />
-                      )}
-                      Google Drive
-                    </Button>
+                    // <Button onClick={driveSignIn} disabled={driveLoading} variant="outline" size="sm">
+                    //   {driveLoading ? (
+                    //     <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                    //   ) : (
+                    //     <Cloud className="w-3 h-3 mr-1" />
+                    //   )}
+                    //   Google Drive
+                    // </Button>
                   ) : (
                     <>
                       <Button onClick={handleBackup} disabled={driveLoading} size="sm">
