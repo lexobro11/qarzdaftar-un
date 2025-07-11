@@ -27,9 +27,10 @@ export default function ReceiptPrinter({ debt, onClose }: ReceiptPrinterProps) {
     const receiptContent = `
       <div style="width: 300px; font-family: monospace; font-size: 12px; line-height: 1.4;">
         <div style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
-          <h2 style="margin: 0; font-size: 16px;">${shopName}</h2>
-          <p style="margin: 2px 0;">${shopAddress}</p>
-          <p style="margin: 2px 0;">Tel: ${shopPhone}</p>
+          <h2 style="margin: 0; font-size: 16px;">${setShopName}</h2>
+          <p style="margin: 2px 0;">${setShopAddress}</p>
+          <p style="margin: 2px 0;">Tel: ${setShopPhone}</p>
+          <p style="margin: 2px 0;">Tel: ${setShopPhone}</p>
         </div>
         
         <div style="margin-bottom: 15px;">
@@ -50,7 +51,7 @@ export default function ReceiptPrinter({ debt, onClose }: ReceiptPrinterProps) {
         
         <div style="text-align: center; margin-top: 15px; font-size: 10px;">
           <p style="margin: 2px 0;">Rahmat!</p>
-          <p style="margin: 2px 0;">Yana tashrif buyuring!</p>
+          <p style="margin: 2px 0;">Iltimos! Qarzingizni vaqtida to'lang</p>
         </div>
       </div>
     `
@@ -87,9 +88,9 @@ export default function ReceiptPrinter({ debt, onClose }: ReceiptPrinterProps) {
 
   const downloadReceipt = () => {
     const receiptText = `
-${shopName}
-${shopAddress}
-Tel: ${shopPhone}
+${setShopName}
+${setShopAddress}
+Tel: ${setShopPhone}
 
 ================================
 "ODINA MADINA MCHJ"
@@ -132,17 +133,17 @@ KEYINGI SAFARGI QARZINGIZNI
         <CardContent className="space-y-4">
           <div>
             <label className="text-sm font-medium">Dorixona nomi:</label>
-            <Input value={shopName} onChange={(e) => setShopName(e.target.value)} />
+            <Input value={setShopName} onChange={(e) => setShopName(e.target.value)} />
           </div>
 
           <div>
             <label className="text-sm font-medium">Manzil:</label>
-            <Input value={shopAddress} onChange={(e) => setShopAddress(e.target.value)} />
+            <Input value={setShopAddress} onChange={(e) => setShopAddress(e.target.value)} />
           </div>
 
           <div>
             <label className="text-sm font-medium">Telefon:</label>
-            <Input value={shopPhone} onChange={(e) => setShopPhone(e.target.value)} />
+            <Input value={setShopPhone} onChange={(e) => setShopPhone(e.target.value)} />
           </div>
 
           <div>
