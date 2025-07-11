@@ -394,10 +394,10 @@ export default function HomePage() {
                 </>
               )}
 
-{/*               <Button onClick={handleLocalRestore} variant="secondary" size="sm">
+              <Button onClick={handleLocalRestore} variant="secondary" size="sm">
                 <CheckCircle className="w-3 h-3 mr-1" />
                 Local
-              </Button> */}
+              </Button>
             </div>
           </CardContent>
         </Card>
