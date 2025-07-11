@@ -14,9 +14,10 @@ interface ReceiptPrinterProps {
 }
 
 export default function ReceiptPrinter({ debt, onClose }: ReceiptPrinterProps) {
-  const [shopName, setShopName] = useState("Mening Do'konim")
-  const [shopAddress, setShopAddress] = useState("Toshkent shahar")
-  const [shopPhone, setShopPhone] = useState("+998 90 123 45 67")
+  const [shopName, setShopName] = useState("ODINA MADINA MCHJ DORIXONASI")
+  const [shopAddress, setShopAddress] = useState("Bog'ot tumani, Dehqonbozor qishloqi, Yo'ldosh ota to'yxonasi yon tomoni")
+  const [shopPhone, setShopPhone] = useState("+998 88 458 93 98")
+  const [shopPhone, setShopPhone] = useState("+998 90 725 40 02")
   const [notes, setNotes] = useState("")
 
   // If no debt was passed, render nothing (or a tiny placeholder)
@@ -32,7 +33,7 @@ export default function ReceiptPrinter({ debt, onClose }: ReceiptPrinterProps) {
         </div>
         
         <div style="margin-bottom: 15px;">
-          <p style="margin: 2px 0;"><strong>QARZ CHEKI</strong></p>
+          <p style="margin: 2px 0;"><strong>DORIXONA QARZ CHEKI</strong></p>
           <p style="margin: 2px 0;">Sana: ${new Date().toLocaleString()}</p>
           <p style="margin: 2px 0;">Chek №: ${Date.now()}</p>
         </div>
@@ -91,7 +92,8 @@ ${shopAddress}
 Tel: ${shopPhone}
 
 ================================
-QARZ CHEKI
+"ODINA MADINA MCHJ"
+     DORIXONASI
 ================================
 Sana: ${new Date().toLocaleString()}
 Chek №: ${Date.now()}
@@ -105,7 +107,8 @@ Holati: ${debt.tolandi ? "To'langan ✅" : "To'lanmagan ❌"}
 ${notes ? `Izoh: ${notes}` : ""}
 
 ================================
-Rahmat! Yana tashrif buyuring!
+KEYINGI SAFARGI QARZINGIZNI 
+     VAQTIDA TO'LANG! 
 ================================
     `
 
@@ -128,7 +131,7 @@ Rahmat! Yana tashrif buyuring!
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="text-sm font-medium">Do'kon nomi:</label>
+            <label className="text-sm font-medium">Dorixona nomi:</label>
             <Input value={shopName} onChange={(e) => setShopName(e.target.value)} />
           </div>
 
