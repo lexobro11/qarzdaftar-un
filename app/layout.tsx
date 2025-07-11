@@ -7,9 +7,9 @@ import { AuthProvider } from "@/contexts/auth-context"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Do'kon Qarz Daftari",
-  description: "Do'kon qarzlarini boshqarish tizimi",
-    generator: 'v0.dev'
+  title: "Dorixona Qarz Daftari",
+  description: "Dorixona qarzlarini boshqarish tizimi",
+    // generator: 'v0.dev'
 }
 
 export default function RootLayout({
