@@ -196,18 +196,18 @@ export default function DebtForm({ onAdd, onSubmit, onExportPDF, editingDebt, on
             <p className="text-xs text-gray-500">9 ta raqam kiriting. Masalan: 90 123 45 67</p>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-medium text-gray-700 flex items-center gap-2">
+          <div className="space-y-2 relative">
+            <label className="text-xs font-medium text-gray-700 flex items-center gap-2 absolute">
               <DollarSign className="w-4 h-4" />
               Qarz summasi (so'm)
             </label>
             <Input
-              placeholder="1 0 0 000"
+              placeholder="100 000"
               value={qarz}
               onChange={handleAmountChange}
               className="border-2 border-purple-200 focus:border-purple-400"
             />
-            <p className="text-xs text-gray-500">Faqat raqamlar. Masalan: 150000</p>
+            <p className="text-xs text-gray-500">Faqat raqamlar. Masalan: 150 000</p>
           </div>
 
           <div className="flex gap-2 pt-2">
